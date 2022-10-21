@@ -1,26 +1,55 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { Routes, Route } from 'react-router-dom'
+import RouteCheckers from 'components/organisms/RouteCheckers'
+import RouteCheckerUnauthenticated from 'components/organisms/RouteCheckerUnauthenticated'
+import RouteCheckerAuthendicated from 'components/organisms/RouteCheckerAuthendicated'
+import LogIn from 'components/pages/LogIn'
+import SignUp from 'components/pages/SignUp'
+import Home from 'components/pages/Home'
+import Music from 'components/pages/Music'
+import NotFound from 'components/pages/NotFound'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => (
+    <Routes>
+        <Route
+            path="/"
+            element={(
+                <RouteCheckers
+                    checkers={[RouteCheckerAuthendicated]}
+                    element={<Home />}
+                />
+            )}
+        />
+        <Route
+            path="/music"
+            element={(
+                <RouteCheckers
+                    checkers={[RouteCheckerAuthendicated]}
+                    element={<Music />}
+                />
+            )}
+        />
+        <Route
+            path="/login"
+            element={(
+                <RouteCheckerUnauthenticated
+                    element={<LogIn />}
+                />
+            )}
+        />
+        <Route
+            path="/signup"
+            element={(
+                <RouteCheckerUnauthenticated
+                    element={<SignUp />}
+                />
+            )}
+        />
+        <Route
+            path="*"
+            element={<NotFound />}
+        />
+    </Routes>
+)
 
-export default App;
+export default App
