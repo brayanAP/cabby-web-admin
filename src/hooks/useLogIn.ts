@@ -1,10 +1,12 @@
-import { useCallback } from 'react'
-import { useDispatch } from 'react-redux'
+import { useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { updateCurrentUser } from 'store/actions/auth'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 import useAlertDialog from 'hooks/useAlertDialog'
+import useUpdateCurrentUser from 'hooks/useUpdateCurrentUser'
 import isValidEmail from 'shared/isValidEmail'
 import isValidPassword from 'shared/isValidPassword'
+import { eabyAuthFirebase } from 'shared/getFirebaseApp'
+import getValueByPathFromUnknown from 'shared/getValueByPathFromUnknown'
 
 type FormLogIn = {
     email: string;
@@ -12,39 +14,47 @@ type FormLogIn = {
 }
 
 const useLogIn = () => {
+    const [loggingIn, setLoggingIn] = useState(false)
     const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const updateCurrentUser = useUpdateCurrentUser()
     const alert = useAlertDialog()
 
-    return useCallback(({ email, password }: FormLogIn) => {
-        if (!isValidEmail(email.trim())) {
+    const handleOnLogIn = useCallback(async (credentials: FormLogIn) => {
+        setLoggingIn(true)
+        try {
+            const credentialsTrim = Object.entries(credentials).reduce((accum, [key, value]) => ({
+                ...accum,
+                [key]: value.trim(),
+            }), {}) as FormLogIn
+
+            if (!isValidEmail(credentialsTrim.email)) {
+                throw new Error('Invalid email')
+            }
+
+            if (!isValidPassword(credentialsTrim.password)) {
+                throw new Error('Invalid password')
+            }
+
+            const { user } = await signInWithEmailAndPassword(
+                eabyAuthFirebase,
+                credentials.email,
+                credentials.password,
+            )
+
+            await updateCurrentUser(user.uid)
+            navigate('/', { replace: true })
+        } catch (error) {
+            const errorMessage = getValueByPathFromUnknown(error, ['message'])
             alert({
-                title: 'Invalid email',
+                title: `${errorMessage}`,
                 message: 'Please enter a valid one',
             })
-            return
+        } finally {
+            setLoggingIn(false)
         }
+    }, [navigate, alert, updateCurrentUser])
 
-        if (!isValidPassword(password.trim())) {
-            alert({
-                title: 'Invalid password',
-                message: 'Must be uppercase, lowercase, numerous, and special character',
-            })
-            return
-        }
-
-        dispatch(updateCurrentUser({
-            id: 'USER001',
-            phone: '6692530436',
-            name: 'Brayan Ulisses',
-            paternalSurname: 'Arias',
-            maternalSurname: 'Perez',
-            dateOfBirth: '',
-            gender: 'Man',
-            email: 'brulariaspe@gmail.com',
-        }))
-        navigate('/', { replace: true })
-    }, [dispatch, navigate, alert])
+    return { loggingIn, handleOnLogIn }
 }
 
 export default useLogIn

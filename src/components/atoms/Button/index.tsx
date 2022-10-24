@@ -1,12 +1,13 @@
 import React from 'react'
 import { Button, ButtonProps } from '@mui/material'
 
-type Props = Pick<ButtonProps, 'type' | 'variant' | 'color' | 'children' | 'onClick'>
+type Props = Pick<ButtonProps, 'type' | 'variant' | 'color' | 'disabled' | 'children' | 'onClick'>
 
 const ButtonComponent: React.FC<Props> = ({
     type,
     variant,
     color,
+    disabled,
     children,
     onClick,
 }) => (
@@ -14,6 +15,7 @@ const ButtonComponent: React.FC<Props> = ({
         type={type}
         variant={variant}
         color={color}
+        disabled={disabled}
         onClick={onClick}
     >
         {children}

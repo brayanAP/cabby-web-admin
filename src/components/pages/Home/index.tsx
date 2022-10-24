@@ -1,40 +1,24 @@
-import React from 'react'
-import Text from 'components/atoms/Text'
+import React, { useEffect } from 'react'
 import Button from 'components/atoms/Button'
 import ScreenMenuPleasures from 'components/molecules/ScreenMenuPleasures'
-import AvatarUserToProfile from 'components/molecules/AvatarUserToProfile'
-import useLogOut from 'hooks/useLogOut'
-import useCurrentUser from 'hooks/useCurrentUser'
-import { Frame, Card, InfoFrame } from './style'
+import usePaginationConductores from 'hooks/usePaginationConductores'
+import { Frame, Card } from './style'
 
 export default () => {
-    const currentUser = useCurrentUser()
-    const logout = useLogOut()
+    const { gettingConductores, arrConductores, getConductores } = usePaginationConductores()
+
+    useEffect(() => console.log(arrConductores), [arrConductores])
 
     return (
         <ScreenMenuPleasures>
             <Frame>
                 <Card>
-                    <AvatarUserToProfile width={100} height={100} />
-                    <Text variant="h3" align="center">{`${currentUser?.name} ${currentUser?.paternalSurname}`}</Text>
-                    <InfoFrame>
-                        <Text variant="body1">Phone:</Text>
-                        <Text variant="body1">{currentUser?.phone}</Text>
-                    </InfoFrame>
-                    <InfoFrame>
-                        <Text variant="body1">Email:</Text>
-                        <Text variant="body1">{currentUser?.email}</Text>
-                    </InfoFrame>
-                    <InfoFrame>
-                        <Text variant="body1">Gender:</Text>
-                        <Text variant="body1">{currentUser?.gender}</Text>
-                    </InfoFrame>
                     <Button
                         variant="outlined"
-                        color="error"
-                        onClick={logout}
+                        disabled={gettingConductores}
+                        onClick={getConductores}
                     >
-                        Delete my account
+                        Get conductores
                     </Button>
                 </Card>
             </Frame>

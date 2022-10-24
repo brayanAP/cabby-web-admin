@@ -1,12 +1,14 @@
 import { AuthAction } from 'store/actions/auth'
 import ReduxConstants from 'store/constants'
-import type { User } from 'types'
+import type { Admin } from 'types'
 
 export type AuthState = {
-    currentUser?: User;
+    loading: boolean;
+    currentUser?: Admin;
 }
 
 const defaultState: AuthState = {
+    loading: true,
     currentUser: undefined,
 }
 
@@ -16,6 +18,7 @@ export default (paramState: AuthState | undefined, action: AuthAction): AuthStat
     case ReduxConstants.UPDATE_CURRENT_USER:
         return {
             ...state,
+            loading: false,
             currentUser: action.payload,
         }
     default:

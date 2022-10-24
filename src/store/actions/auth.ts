@@ -1,12 +1,12 @@
 import ReduxConstants from 'store/constants'
-import type { User } from 'types'
+import type { Admin } from 'types'
 
 type UpdateCurrentUserAction = {
     type: ReduxConstants.UPDATE_CURRENT_USER;
-    payload?: User;
+    payload?: Admin;
 }
 
-export const updateCurrentUser = (currentUser?: User): UpdateCurrentUserAction => ({
+export const updateCurrentUser = (currentUser?: Admin): UpdateCurrentUserAction => ({
     type: ReduxConstants.UPDATE_CURRENT_USER,
     payload: currentUser,
 })

@@ -25,16 +25,3 @@ export const Card = styled(BaseCard)`
         box-shadow: none;
     }
 `
-
-export const InfoFrame = styled.div`
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    @media screen and (max-width: 768px) {
-        justify-content: center;
-        flex-direction: column;
-        gap: 0px;
-    }
-`
