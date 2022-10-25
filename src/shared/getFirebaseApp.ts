@@ -12,7 +12,14 @@ export const getFirebaseApp = (appName: string) => {
     }
 }
 
+const { projectId } = getApphive()
+
+export const realTimeFirebasePaths = {
+    admins: `/projects/${projectId}/data/APP_Admins`,
+    conductores: `/projects/${projectId}/data/TAXI_Conductor`,
+    pasajeros: `/projects/${projectId}/data/TAXI_Cliente`,
+}
+
 export const eabyFirebaseApp = getFirebaseApp('main')
 export const eabyRealTimeFirebase = getDatabase(eabyFirebaseApp)
 export const eabyAuthFirebase = getAuth(eabyFirebaseApp)
-export const eabyRealTimeFirebasePath = `/projects/${getApphive().projectId}/data`

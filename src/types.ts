@@ -3,11 +3,15 @@ export type RouteCheckerComponent = React.VFC<{
     loadingElement?: JSX.Element;
 }>;
 
-export type Music = {
+export type Pasajero = {
     id: string;
-    personId: string;
-    name: string;
-    author: string;
+    nombreCompleto: string;
+    email: string;
+    telefono: string;
+    fotoPerfil: string;
+    estatus: 'Activo' | 'Denegado';
+    fechaRegistro: string;
+    fechaUltInicio: string;
 }
 
 export type Conductor = {
