@@ -1,0 +1,15 @@
+{
+    "firebase": {
+        "apiKey": "------dummy------",
+        "authDomain": "------dummy------",
+        "databaseURL": "------dummy------",
+        "projectId": "------dummy------",
+        "storageBucket": "------dummy------",
+        "messagingSenderId": "------dummy------",
+        "appId": "------dummy------",
+        "measurementId": "------dummy------"
+    },
+    "apphive": {
+        "projectId": "------dummy------"
+    }
+}
